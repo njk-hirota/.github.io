@@ -223,18 +223,16 @@ function handleStartButtonClick() {
                 mainTitle.style.transform = 'scale(1)';
                 mainTitle.style.opacity = '1';
             }
-
-
-            // ボタンの表示状態を切り替え
-            if (currentParticipants.length === 0) {
+            
+            // まだ参加者が残っている場合は、startButtonを再度有効にする
+            if (currentParticipants.length > 0) {
+                startButton.disabled = false;
+                startButton.classList.remove('hidden'); // 念のため
+                resetButton.classList.add('hidden'); // 念のため
+            } else {
                 // すべての抽選が終わった場合
                 startButton.classList.add('hidden');
                 resetButton.classList.remove('hidden');
-            } else {
-                // まだ参加者が残っている場合
-                startButton.classList.remove('hidden');
-                resetButton.classList.add('hidden');
-                startButton.disabled = false;
             }
 
             updateRemainingCount(); // 残り人数を更新
