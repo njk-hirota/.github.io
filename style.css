@@ -5,8 +5,17 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
-    overflow: hidden;
+    /* background-color: #f0f0f0; */ /* 背景画像を置く場合はコメントアウトまたは削除 */
+    overflow: hidden; /* スクロールバーが出ないように */
+
+    /* 背景画像を設定する場合の例 */
+    /* background-image: url('images/your_background_image.jpg'); */
+    /* background-size: cover; */
+    /* background-position: center center; */
+    /* background-repeat: no-repeat; */
+    /* background-attachment: fixed; */
+    /* background-color: rgba(0, 0, 0, 0.3); */ /* 画像の上に半透明のオーバーレイをかける場合 */
+    /* background-blend-mode: overlay; */
 }
 
 .container {
@@ -15,14 +24,14 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 90%;
-    max-width: 600px;
+    width: 90%; /* デスクトップでも相対幅を使用 */
+    max-width: 600px; /* 最大幅を設定 */
 }
 
 h1 {
     color: gold;
     margin-bottom: 30px;
-    font-size: 3.0em;
+    font-size: 3.0em; /* デスクトップ向け基本サイズ */
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     
@@ -30,6 +39,7 @@ h1 {
     opacity: 0;
     transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.8s ease-in;
     transform-origin: center center;
+    will-change: transform, opacity; /* パフォーマンス改善 */
 }
 
 .display-area {
@@ -44,24 +54,24 @@ h1 {
 }
 
 #selectedImage {
-    max-width: 250px;
-    max-height: 250px;
+    max-width: 250px; /* デスクトップ向け基本サイズ */
+    max-height: 250px; /* デスクトップ向け基本サイズ */
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     
-    /* ★★★ ここを調整 ★★★ */
-    margin-top: 40px; /* 上からの余白を追加（調整してください） */
-    margin-bottom: 0px; /* 画像の下にスペースを追加（名前との間隔） */
+    margin-top: 40px; /* 上からの余白 */
+    margin-bottom: 0px; /* 名前との間隔 */
 
     transform: scale(0);
     opacity: 0;
     transition: transform 1.0s ease-out, opacity 1.0s ease-in;
     transform-origin: center center;
+    will-change: transform, opacity; /* パフォーマンス改善 */
 }
 
 #selectedName {
-    font-size: 3.5em;
+    font-size: 3.5em; /* デスクトップ向け基本サイズ */
     font-weight: bold;
     color: #FF0000;
     margin-top: 0; 
@@ -70,36 +80,38 @@ h1 {
     transition: opacity 1.5s ease-in-out;
     position: relative;
     z-index: 1;
+    will-change: opacity; /* パフォーマンス改善 */
 }
 
 /* hidden クラスが適用されている要素は非表示にする */
 .hidden {
-    opacity: 0 !important; /* もし問題なければ !important は残してもOK */
-    pointer-events: none;
+    opacity: 0 !important;
+    pointer-events: none; /* クリックイベントを無効化 */
 }
 
 /* buttons セクションのスタイル */
 .buttons {
-    /* 現在は特にスタイルがないので、ここに追加します */
-    text-align: right; /* 右寄せにする場合 */
-    margin-top: 30px; /* 必要であれば上部に余白を追加 */
+    display: flex; /* ボタンを横並びにする */
+    justify-content: center; /* ボタンを中央に配置 */
+    gap: 20px; /* ボタン間のスペースを確保 */
+    margin-top: 30px; /* 上部に余白を追加 */
 }
 
-* text-align: right; 
 /* ボタンのスタイル */
-button {
+.buttons button {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 12px 25px;
-    font-size: 1.1em;
-    border-radius: 5px;
+    padding: 15px 30px; /* モバイルでも押しやすいようにパディングを確保 */
+    font-size: 1.1em; /* 基本のフォントサイズ */
+    border-radius: 8px; /* 角を丸くする */
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin: 0 10px;
+    min-width: 150px; /* ボタンの最低幅を確保 */
+    touch-action: manipulation; /* タッチデバイスでの反応性向上 */
 }
 
-button:hover {
+.buttons button:hover {
     background-color: #0056b3;
 }
 
@@ -116,30 +128,30 @@ button:hover {
 /* ========================================= */
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
-        width: 98%;
-        max-width: none;
-        box-sizing: border-box;
+        padding: 15px; /* パディングをさらに小さくする */
+        width: 98%; /* 画面幅により近づける */
+        max-width: none; /* 最大幅の制限をなくす */
+        box-sizing: border-box; /* paddingをwidthに含める */
     }
 
     h1 {
-        font-size: 1.8em;
+        font-size: 1.8em; /* タイトルを小さくする */
         margin-bottom: 15px;
     }
 
     .display-area {
-        height: 200px;
+        height: 200px; /* 表示エリアの高さをさらに調整 */
         margin-bottom: 15px;
     }
 
     #selectedImage {
-        max-width: 150px;
+        max-width: 150px; /* 画像サイズを小さくする */
         max-height: 150px;
         margin-top: 15px;
     }
 
     #selectedName {
-        font-size: 2.0em;
+        font-size: 2.0em; /* 名前を小さくする */
     }
 
     .buttons {
@@ -152,8 +164,8 @@ button:hover {
     .buttons button {
         padding: 12px 20px; /* ボタンのパディングを調整 */
         font-size: 1.1em; /* ボタンのフォントサイズを調整 */
-        width: 50%; /* ★変更: 親要素の幅の半分に設定 */
-        /* max-width: 100%; ← この行は不要になりますが、念のため残すことも可能 */
+        width: 20%; /* 親要素の幅の20%に設定 */
+        max-width: 100%; /* 親より広くならないように */
         margin: 0; /* flex-direction: column; と gap を使うので margin は不要 */
     }
 }
@@ -171,5 +183,10 @@ button:hover {
 
     #selectedName {
         font-size: 1.8em;
+    }
+
+    .buttons button {
+        width: 25%; /* こちらも親要素の幅の25%程度に（さらに小さい画面なので少し大きく） */
+        /* または、こちらでも20%を維持するか、固定px値にするか、調整してください */
     }
 }
