@@ -110,6 +110,7 @@ button:hover {
 #resetButton:hover {
     background-color: #5a6268;
 }
+
 /* ========================================= */
 /* モバイルデバイス向け調整 (画面幅が768px以下の場合) */
 /* ========================================= */
@@ -145,15 +146,14 @@ button:hover {
         flex-direction: column; /* ボタンを縦に並べる */
         gap: 10px; /* ボタン間の隙間を調整 */
         margin-top: 20px; /* 上部の余白を調整 */
-        align-items: center; /* ★追加: ボタン群を中央に配置 */
+        align-items: center; /* ボタン群を水平方向の中央に配置 */
     }
 
     .buttons button {
         padding: 12px 20px; /* ボタンのパディングを調整 */
         font-size: 1.1em; /* ボタンのフォントサイズを調整 */
-        /* width: 100%; ← この行は削除 */
-        width: auto; /* ★変更: コンテンツの幅に合わせる */
-        max-width: 100%; /* ★追加: 親より広くならないように */
+        width: 50%; /* ★変更: 親要素の幅の半分に設定 */
+        /* max-width: 100%; ← この行は不要になりますが、念のため残すことも可能 */
         margin: 0; /* flex-direction: column; と gap を使うので margin は不要 */
     }
 }
