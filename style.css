@@ -5,10 +5,10 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    /* background-color: #f0f0f0; */ /* 背景画像を置く場合はコメントアウトまたは削除 */
+    background-color: #f0f0f0; /* 背景色を設定 */
     overflow: hidden; /* スクロールバーが出ないように */
 
-    /* 背景画像を設定する場合の例 */
+    /* 背景画像を設定する場合の例（必要に応じてコメントを解除し、パスを修正） */
     /* background-image: url('images/your_background_image.jpg'); */
     /* background-size: cover; */
     /* background-position: center center; */
@@ -44,12 +44,12 @@ h1 {
 
 .display-area {
     width: 100%;
-    height: 450px; /* ★調整: ボタンも中に含むため高さを調整 */
+    height: 450px; /* 全体の高さを調整。コンテンツに合わせて適宜変更してください */
     display: flex;
-    flex-direction: column; /* 画像と名前、ボタンを縦方向に配置 */
+    flex-direction: column; /* 画像、その下にresult-actions（名前とボタン）を縦方向に配置 */
     justify-content: center; /* 要素全体を中央に */
     align-items: center; /* 要素全体を水平中央に */
-    margin-bottom: 0; /* display-area がコンテナの最後の要素になるため */
+    margin-bottom: 0; /* .container の最後の要素になるため */
     position: relative;
 }
 
@@ -60,8 +60,8 @@ h1 {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     
-    margin-top: 40px;
-    margin-bottom: 0px;
+    margin-top: 40px; /* 上からの余白。必要に応じて調整 */
+    margin-bottom: 0px; /* 名前との間隔は .result-actions で調整します */
 
     transform: scale(0);
     opacity: 0;
@@ -70,12 +70,22 @@ h1 {
     will-change: transform, opacity;
 }
 
+/* 新しく追加する .result-actions のスタイル */
+.result-actions {
+    display: flex; /* 名前とボタンを横並びにする */
+    justify-content: center; /* 横方向の中央に寄せる */
+    align-items: center; /* 縦方向の中央に寄せる（名前とボタンのベースラインを揃えるなど） */
+    width: 100%; /* 親要素の幅いっぱいに広げる */
+    margin-top: 20px; /* 画像からの垂直方向の余白 */
+    gap: 20px; /* 名前とボタンの間のスペース */
+    flex-wrap: wrap; /* 小さい画面で折り返す可能性がある場合 */
+}
+
 #selectedName {
     font-size: 3.5em;
     font-weight: bold;
     color: #FF0000;
-    margin-top: 0; 
-    margin-bottom: 0;
+    margin: 0; /* 親要素のFlexboxで間隔を調整するので、個別のmarginは0にする */
     opacity: 0;
     transition: opacity 1.5s ease-in-out;
     position: relative;
@@ -94,13 +104,12 @@ h1 {
 /* ここから画像ボタン用のスタイル */
 /* ========================================= */
 
-/* buttons セクションのスタイル (display-area 内に移動したため、margin-topを調整) */
+/* .buttons セクションのスタイル (result-actions 内に移動) */
 .buttons {
-    display: flex; /* ボタンを横並びにする */
-    justify-content: center; /* ボタンを中央に配置 */
+    display: flex; /* スタートボタンとリセットボタンを横並びにする */
+    justify-content: center; /* ボタン群を中央に配置 */
     gap: 20px; /* ボタン間のスペースを確保 */
-    margin-top: 20px; /* ★調整: 画像や名前からの余白 */
-    width: 100%; /* 親要素の幅いっぱいに広がるように */
+    margin: 0; /* .result-actions で制御するので、ここではmarginを0にする */
 }
 
 /* 画像ボタンの共通スタイル */
@@ -142,7 +151,7 @@ h1 {
     }
 
     .display-area {
-        height: 300px; /* ★調整: モバイルでも高さを調整 */
+        height: 350px; /* モバイルでの高さ調整 */
         margin-bottom: 0;
     }
 
@@ -152,16 +161,22 @@ h1 {
         margin-top: 15px;
     }
 
+    /* モバイルでは名前とボタンを縦に並べる */
+    .result-actions {
+        flex-direction: column; /* 縦方向に配置 */
+        gap: 15px; /* 名前とボタンの間のスペース */
+        margin-top: 15px; /* 画像からの垂直方向の余白 */
+    }
+
     #selectedName {
         font-size: 2.0em;
     }
 
     .buttons {
-        flex-direction: column; /* ボタンを縦に並べる */
-        gap: 10px;
-        margin-top: 15px; /* ★調整: モバイルでの画像や名前からの余白 */
-        align-items: center; /* ボタン群を水平方向の中央に配置 */
-        width: 100%;
+        flex-direction: row; /* モバイルでもボタン自体は横並びにする */
+        gap: 10px; /* ボタン間のスペース */
+        /* margin: 0; はそのまま */
+        width: auto; /* コンテンツの幅に合わせる */
     }
 
     .button-image { /* imgタグに付与したクラス名 */
@@ -187,7 +202,7 @@ h1 {
     }
 
     .display-area {
-        height: 250px; /* ★調整: さらに小さい画面での高さ調整 */
+        height: 300px; /* さらに小さい画面での高さ調整 */
     }
 
     .button-image { /* imgタグに付与したクラス名 */
