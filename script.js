@@ -4,7 +4,7 @@ const allParticipants = [
     { name: "中津川 浩平", image: "2.jpg" },
     { name: "有地 悠人", image: "3.jpg" },
     { name: "西谷 頼征", image: "4.jpg" },
-    { name: "中尾 恵太", image: "5.jpgg" },
+    { name: "中尾 恵太", image: "5.jpg" },
     { name: "草別 秀", image: "6.jpg" },
     { name: "高橋 克巳", image: "7.jpg" },
     { name: "小笠原 一彦", image: "8.jpg" },
