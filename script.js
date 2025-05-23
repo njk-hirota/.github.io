@@ -1,10 +1,11 @@
 // 抽選対象のデータ（名前と画像ファイル名）
 const allParticipants = [
-    { name: "内山 直揮", image: "1.jpg" }, 
+    // ... (あなたの現在の参加者リスト) ...
+    { name: "内山 直揮", image: "1.jpg" },
     { name: "中津川 浩平", image: "2.jpg" },
     { name: "有地 悠人", image: "3.jpg" },
     { name: "西谷 頼征", image: "4.jpg" },
-    { name: "中尾 恵太", image: "5.jpg" },
+    { name: "中尾 恵太", image: "5.jpg" }, 
     { name: "草別 秀", image: "6.jpg" },
     { name: "高橋 克巳", image: "7.jpg" },
     { name: "小笠原 一彦", image: "8.jpg" },
@@ -127,12 +128,14 @@ const allParticipants = [
     { name: "安田 優樹", image: "125.jpg" },
     { name: "早坂 康佑", image: "126.jpg" },
     { name: "隈川 雛奈子", image: "127.jpg" },
-
     // 必要に応じてここに追加してください
 ];
 
 // 抽選に使用する、現在の残りの参加者リスト（重複なし抽選用）
 let currentParticipants = [];
+
+// ★追加: 画像の事前読み込み用配列
+const preloadedImages = []; // ここに追加
 
 // HTML要素の取得
 const mainTitle = document.getElementById('mainTitle');
@@ -195,24 +198,47 @@ function updateRemainingCount() {
 }
 
 // --- イベントリスナーの設定 ---
-window.onload = function() {
-    console.log("window.onload: Page fully loaded.");
+// window.onload の代わりに DOMContentLoaded を使うのが一般的です
+document.addEventListener('DOMContentLoaded', () => { // ここを修正
+    console.log("DOMContentLoaded: DOM fully loaded and parsed.");
     initializeLottery();
 
     if (startButton) {
         startButton.addEventListener('click', handleStartButtonClick);
-        console.log("window.onload: Start Button event listener added.");
+        console.log("DOMContentLoaded: Start Button event listener added.");
     } else {
-        console.error("window.onload: Start Button element not found!");
+        console.error("DOMContentLoaded: Start Button element not found!");
     }
 
     if (resetButton) {
         resetButton.addEventListener('click', handleResetButtonClick);
-        console.log("window.onload: Reset Button event listener added.");
+        console.log("DOMContentLoaded: Reset Button event listener added.");
     } else {
-        console.error("window.onload: Reset Button element not found!");
+        console.error("DOMContentLoaded: Reset Button element not found!");
     }
-};
+
+    // ★追加: 全画像を事前に読み込む関数を呼び出す
+    preloadAllImages(); // ここに追加
+});
+
+// ★追加: 画像の事前読み込み関数
+function preloadAllImages() {
+    console.log("Preloading all images...");
+    allParticipants.forEach(participant => {
+        const img = new Image();
+        img.src = imageFolderPath + participant.image;
+        preloadedImages.push(img); // 後で参照できるように配列に保持
+        // ロード完了時の処理（オプション）
+        img.onload = () => {
+            // console.log(`Image loaded: ${participant.image}`);
+        };
+        img.onerror = () => {
+            console.error(`Failed to load image: ${participant.image}`);
+        };
+    });
+    console.log("All images preloading initiated.");
+}
+
 
 // --- 抽選開始ボタンのクリックハンドラー ---
 function handleStartButtonClick() {
@@ -256,6 +282,7 @@ function handleStartButtonClick() {
         const tempParticipant = allParticipants[tempRandomIndex];
 
         if (selectedImage) {
+            // 事前読み込みされた画像を使う (ブラウザがキャッシュからロードする)
             selectedImage.src = imageFolderPath + tempParticipant.image;
             selectedImage.classList.remove('hidden'); // hiddenクラスを一時的に解除
             selectedImage.style.transition = 'none'; // シャッフル中はアニメーション無効
