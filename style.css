@@ -44,34 +44,34 @@ h1 {
 
 .display-area {
     width: 100%;
-    height: 350px; /* 必要に応じて高さを調整してください */
+    height: 450px; /* ★調整: ボタンも中に含むため高さを調整 */
     display: flex;
-    flex-direction: column; /* 画像と名前を縦方向に配置 */
+    flex-direction: column; /* 画像と名前、ボタンを縦方向に配置 */
     justify-content: center; /* 要素全体を中央に */
     align-items: center; /* 要素全体を水平中央に */
-    margin-bottom: 30px;
+    margin-bottom: 0; /* display-area がコンテナの最後の要素になるため */
     position: relative;
 }
 
 #selectedImage {
-    max-width: 250px; /* デスクトップ向け基本サイズ */
-    max-height: 250px; /* デスクトップ向け基本サイズ */
+    max-width: 250px;
+    max-height: 250px;
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     
-    margin-top: 40px; /* 上からの余白 */
-    margin-bottom: 0px; /* 名前との間隔 */
+    margin-top: 40px;
+    margin-bottom: 0px;
 
     transform: scale(0);
     opacity: 0;
     transition: transform 1.0s ease-out, opacity 1.0s ease-in;
     transform-origin: center center;
-    will-change: transform, opacity; /* パフォーマンス改善 */
+    will-change: transform, opacity;
 }
 
 #selectedName {
-    font-size: 3.5em; /* デスクトップ向け基本サイズ */
+    font-size: 3.5em;
     font-weight: bold;
     color: #FF0000;
     margin-top: 0; 
@@ -80,48 +80,49 @@ h1 {
     transition: opacity 1.5s ease-in-out;
     position: relative;
     z-index: 1;
-    will-change: opacity; /* パフォーマンス改善 */
+    will-change: opacity;
 }
 
 /* hidden クラスが適用されている要素は非表示にする */
 .hidden {
     opacity: 0 !important;
     pointer-events: none; /* クリックイベントを無効化 */
+    /* display: none; でも良いですが、アニメーションを考慮すると opacity と pointer-events の方が滑らかです */
 }
 
-/* buttons セクションのスタイル */
+/* ========================================= */
+/* ここから画像ボタン用のスタイル */
+/* ========================================= */
+
+/* buttons セクションのスタイル (display-area 内に移動したため、margin-topを調整) */
 .buttons {
     display: flex; /* ボタンを横並びにする */
     justify-content: center; /* ボタンを中央に配置 */
     gap: 20px; /* ボタン間のスペースを確保 */
-    margin-top: 30px; /* 上部に余白を追加 */
-    width: 100%; /* ★追加: 親要素の幅いっぱいに広がるように */
+    margin-top: 20px; /* ★調整: 画像や名前からの余白 */
+    width: 100%; /* 親要素の幅いっぱいに広がるように */
 }
 
-/* ボタンのスタイル */
-.buttons button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 15px 30px; /* モバイルでも押しやすいようにパディングを確保 */
-    font-size: 1.1em; /* 基本のフォントサイズ */
-    border-radius: 8px; /* 角を丸くする */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    min-width: 150px; /* ボタンの最低幅を確保 */
-    touch-action: manipulation; /* タッチデバイスでの反応性向上 */
+/* 画像ボタンの共通スタイル */
+.button-image { /* imgタグに付与したクラス名 */
+    cursor: pointer; /* マウスカーソルを指マークに */
+    transition: transform 0.2s ease, opacity 0.2s ease; /* ホバー/クリック時のアニメーション */
+    display: block; /* margin: auto を使うためにブロック要素にする */
+
+    /* デスクトップでの画像ボタンのサイズ */
+    width: 150px; /* デスクトップでのボタンの幅 */
+    height: auto; /* 高さは元の比率を維持 */
+    max-width: 100%; /* 親要素を超えないように */
+    user-select: none; /* テキスト選択を無効にする（画像ドラッグ防止） */
 }
 
-.buttons button:hover {
-    background-color: #0056b3;
+/* 画像ボタンのホバー/アクティブ状態 */
+.button-image:hover {
+    transform: scale(1.05); /* ホバーで少し拡大 */
 }
 
-#resetButton {
-    background-color: #6c757d;
-}
-
-#resetButton:hover {
-    background-color: #5a6268;
+.button-image:active {
+    transform: scale(0.95); /* クリックで少し縮小 */
 }
 
 /* ========================================= */
@@ -129,45 +130,44 @@ h1 {
 /* ========================================= */
 @media (max-width: 768px) {
     .container {
-        padding: 15px; /* パディングをさらに小さくする */
-        width: 98%; /* 画面幅により近づける */
-        max-width: none; /* 最大幅の制限をなくす */
-        box-sizing: border-box; /* paddingをwidthに含める */
+        padding: 15px;
+        width: 98%;
+        max-width: none;
+        box-sizing: border-box;
     }
 
     h1 {
-        font-size: 1.8em; /* タイトルを小さくする */
+        font-size: 1.8em;
         margin-bottom: 15px;
     }
 
     .display-area {
-        height: 200px; /* 表示エリアの高さをさらに調整 */
-        margin-bottom: 15px;
+        height: 300px; /* ★調整: モバイルでも高さを調整 */
+        margin-bottom: 0;
     }
 
     #selectedImage {
-        max-width: 150px; /* 画像サイズを小さくする */
+        max-width: 150px;
         max-height: 150px;
         margin-top: 15px;
     }
 
     #selectedName {
-        font-size: 2.0em; /* 名前を小さくする */
+        font-size: 2.0em;
     }
 
     .buttons {
         flex-direction: column; /* ボタンを縦に並べる */
-        gap: 10px; /* ボタン間の隙間を調整 */
-        margin-top: 20px; /* 上部の余白を調整 */
+        gap: 10px;
+        margin-top: 15px; /* ★調整: モバイルでの画像や名前からの余白 */
         align-items: center; /* ボタン群を水平方向の中央に配置 */
+        width: 100%;
     }
 
-    .buttons button {
-        padding: 8px 15px; /* パディングをさらに小さく */
-        font-size: 0.9em; /* フォントサイズを小さく */
-        width: 10%; /* 親要素の幅の10%に設定 */
-        max-width: 100%; /* 親より広くならないように */
-        margin: 0; /* flex-direction: column; と gap を使うので margin は不要 */
+    .button-image { /* imgタグに付与したクラス名 */
+        /* モバイルでの画像ボタンのサイズ調整 */
+        width: 80px; /* 例えば、モバイルでのボタンの幅を80pxに */
+        height: auto; /* 高さは元の比率を維持 */
     }
 }
 
@@ -186,9 +186,13 @@ h1 {
         font-size: 1.8em;
     }
 
-    .buttons button {
-        padding: 6px 12px; /* パディングをさらに小さく */
-        font-size: 0.8em; /* フォントサイズをさらに小さく */
-        width: 15%; /* さらに小さい画面なので、少し幅を広げて15%へ調整 */
+    .display-area {
+        height: 250px; /* ★調整: さらに小さい画面での高さ調整 */
+    }
+
+    .button-image { /* imgタグに付与したクラス名 */
+        /* さらに小さな画面での画像ボタンのサイズ調整 */
+        width: 60px; /* さらに小さく */
+        height: auto;
     }
 }
